@@ -3,8 +3,8 @@
 ## [13] GitHub publication
 - Scope: publish the current `devtest` project to `kbo3551/CodexCLI_App`.
 - Change: initialized an independent `main` repository; set GitHub `origin`; build outputs remain ignored.
-- State: remote is empty; secret-pattern scan clean; 56 Maven tests pass.
-- Next: commit, push `origin/main`, and compare local/remote SHA.
+- State: published to `origin/main`; initial local/remote SHA matched (`c82a264`); secret scan clean; 56 tests pass.
+- Next: none.
 
 ## [10] The @ picker never opened - caret lag
 - JavaFX fires `textProperty` listeners BEFORE moving the caret. On the first keystroke the text is
