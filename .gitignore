@@ -1,0 +1,14 @@
+# build output
+target/
+dist/
+
+# local scratch: generated protocol dumps, probe output, screenshots
+.protoref/ts/
+.protoref/*.json
+.protoref/*.png
+.e2e-project/
+
+# IDE
+.idea/
+*.iml
+.vscode/

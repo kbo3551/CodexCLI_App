@@ -1,0 +1,693 @@
+/* ==========================================================================
+   CodexDesktop - base stylesheet
+   Colour tokens (-c-*) are supplied by dark.css / light.css, so this file only
+   describes structure, spacing and typography. Keep it flat: no gradients, one
+   accent colour, borders only where they separate real regions.
+   ========================================================================== */
+
+/* Fonts: D2Coding ships with the app and is registered at startup by FontLoader, so it is the
+   primary family for prose and code alike - one consistent look for Hangul and Latin with no
+   dependency on what the machine has installed. The remainder of each list is a fallback for the
+   (logged) case where the bundled collection could not be registered. */
+.root {
+    -fx-font-family: "D2Coding", "Pretendard Variable", "Segoe UI Variable Text", "Segoe UI",
+                     "Noto Sans KR", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+    -fx-font-size: 13.5px;
+    -fx-background-color: -c-bg;
+    -fx-text-fill: -c-text;
+    -fx-focus-color: -c-focus;
+    -fx-faint-focus-color: transparent;
+}
+
+.mono, .code-body, .diff-line, .output-area, .diagnostics-command {
+    -fx-font-family: "D2Coding", "Cascadia Code", "Cascadia Mono", Consolas, "Courier New", monospace;
+}
+
+/* ------------------------------------------------------------------ text ---- */
+
+/* JavaFX's default label colour assumes a light background, so anything that does not opt into
+   one of the classes below would render near-black on the dark theme. */
+.label { -fx-text-fill: -c-text; }
+
+.text-primary   { -fx-fill: -c-text;        -fx-text-fill: -c-text; }
+.text-secondary { -fx-fill: -c-text-dim;    -fx-text-fill: -c-text-dim; }
+.text-muted     { -fx-fill: -c-text-muted;  -fx-text-fill: -c-text-muted; }
+.text-danger    { -fx-fill: -c-danger;      -fx-text-fill: -c-danger; }
+.text-success   { -fx-fill: -c-success;     -fx-text-fill: -c-success; }
+
+.section-label {
+    -fx-text-fill: -c-text-muted;
+    -fx-font-size: 10.5px;
+    -fx-font-weight: bold;
+    -fx-padding: 14 10 6 10;
+}
+
+.title-strong { -fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: -c-text; }
+.caption      { -fx-font-size: 11.5px; -fx-text-fill: -c-text-muted; }
+
+/* ---------------------------------------------------------------- top bar ---- */
+
+.top-bar {
+    -fx-background-color: -c-bg;
+    -fx-border-color: transparent transparent -c-border transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 0 12 0 12;
+    -fx-min-height: 44;
+    -fx-pref-height: 44;
+}
+
+.top-bar .app-title { -fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: -c-text; }
+.top-bar .project-path { -fx-font-size: 11.5px; -fx-text-fill: -c-text-muted; }
+
+/* ---------------------------------------------------------------- sidebar ---- */
+
+.sidebar {
+    -fx-background-color: -c-surface;
+    -fx-border-color: transparent -c-border transparent transparent;
+    -fx-border-width: 0 1 0 0;
+    -fx-min-width: 236;
+    -fx-pref-width: 236;
+    -fx-max-width: 236;
+}
+
+.sidebar-scroll,
+.sidebar-scroll > .viewport { -fx-background-color: transparent; }
+
+.sidebar-item {
+    -fx-background-color: transparent;
+    -fx-background-radius: 6;
+    -fx-padding: 6 10 6 10;
+    -fx-cursor: hand;
+}
+.sidebar-item:hover { -fx-background-color: -c-hover; }
+.sidebar-item.selected { -fx-background-color: -c-selected; }
+.sidebar-item .label { -fx-text-fill: -c-text-dim; }
+.sidebar-item.selected .label { -fx-text-fill: -c-text; }
+.sidebar-item .sub { -fx-text-fill: -c-text-muted; -fx-font-size: 11px; }
+
+.sidebar-footer {
+    -fx-border-color: -c-border transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+    -fx-padding: 6;
+}
+
+/* ---------------------------------------------------------------- buttons ---- */
+
+.button, .toggle-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-border-color: transparent;
+    -fx-border-width: 1;
+    -fx-text-fill: -c-text-dim;
+    -fx-padding: 5 10 5 10;
+    -fx-cursor: hand;
+}
+.button:hover, .toggle-button:hover { -fx-background-color: -c-hover; -fx-text-fill: -c-text; }
+.button:pressed, .toggle-button:pressed { -fx-background-color: -c-pressed; }
+.button:focused, .toggle-button:focused { -fx-border-color: -c-focus; }
+.button:disabled { -fx-opacity: 0.45; -fx-cursor: default; }
+
+.button.subtle-outline { -fx-border-color: -c-border; }
+.button.subtle-outline:hover { -fx-border-color: -c-border-strong; }
+
+.button.primary {
+    -fx-background-color: -c-accent;
+    -fx-text-fill: -c-accent-text;
+    -fx-font-weight: bold;
+}
+.button.primary:hover { -fx-background-color: -c-accent-hover; -fx-text-fill: -c-accent-text; }
+.button.primary:pressed { -fx-background-color: -c-accent-pressed; }
+
+.button.danger-outline { -fx-border-color: -c-border; -fx-text-fill: -c-danger; }
+.button.danger-outline:hover { -fx-background-color: -c-hover; }
+
+.icon-button {
+    -fx-padding: 4 7 4 7;
+    -fx-font-size: 13px;
+    -fx-text-fill: -c-text-muted;
+}
+.icon-button:hover { -fx-text-fill: -c-text; }
+
+.link-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: -c-text-muted;
+    -fx-padding: 2 4 2 4;
+    -fx-font-size: 11.5px;
+    -fx-underline: false;
+}
+.link-button:hover { -fx-text-fill: -c-accent; -fx-background-color: transparent; }
+
+.toggle-button.segment {
+    -fx-border-color: -c-border;
+    -fx-background-radius: 6;
+}
+.toggle-button.segment:selected {
+    -fx-background-color: -c-selected;
+    -fx-text-fill: -c-text;
+    -fx-border-color: -c-border-strong;
+}
+
+/* ------------------------------------------------------------ conversation ---- */
+
+.conversation-scroll,
+.conversation-scroll > .viewport { -fx-background-color: transparent; }
+
+.conversation-list { -fx-padding: 20 28 12 28; }
+
+.turn-divider {
+    -fx-border-color: -c-border transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+    -fx-opacity: 0.7;
+}
+
+.user-message {
+    -fx-background-color: -c-user-bubble;
+    -fx-background-radius: 10;
+    -fx-padding: 10 14 10 14;
+}
+.user-message .text-flow-content { -fx-fill: -c-text; }
+
+.assistant-block { -fx-padding: 2 0 2 0; }
+
+.md-paragraph { -fx-line-spacing: 3.5; }
+.md-heading-1 { -fx-font-size: 18px; -fx-font-weight: bold; }
+.md-heading-2 { -fx-font-size: 16px; -fx-font-weight: bold; }
+.md-heading-3 { -fx-font-size: 14px; -fx-font-weight: bold; }
+.md-quote {
+    -fx-border-color: transparent transparent transparent -c-border-strong;
+    -fx-border-width: 0 0 0 3;
+    -fx-padding: 2 0 2 12;
+}
+.md-inline-code {
+    -fx-font-family: "D2Coding", "Cascadia Code", Consolas, monospace;
+    -fx-fill: -c-code-inline;
+    -fx-font-size: 12.5px;
+}
+.md-link { -fx-fill: -c-accent; -fx-underline: true; -fx-cursor: hand; }
+
+.code-block {
+    -fx-background-color: -c-code-bg;
+    -fx-background-radius: 8;
+    -fx-border-color: -c-border;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+}
+.code-block .code-header {
+    -fx-padding: 4 8 4 10;
+    -fx-border-color: transparent transparent -c-border transparent;
+    -fx-border-width: 0 0 1 0;
+}
+.code-block .code-body {
+    -fx-font-family: "D2Coding", "Cascadia Code", Consolas, monospace;
+    -fx-font-size: 12.5px;
+    -fx-padding: 8 10 8 10;
+    -fx-text-fill: -c-text;
+}
+.code-block .code-scroll,
+.code-block .code-scroll > .viewport { -fx-background-color: transparent; }
+
+/* -------------------------------------------------------------- tool cards ---- */
+
+.tool-card {
+    -fx-background-color: -c-card;
+    -fx-background-radius: 8;
+    -fx-border-color: -c-border;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+    -fx-padding: 0;
+}
+.tool-card .tool-header {
+    -fx-padding: 7 10 7 10;
+    -fx-cursor: hand;
+}
+.tool-card .tool-header:hover { -fx-background-color: -c-hover; -fx-background-radius: 8; }
+.tool-card .tool-kind {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -c-text-muted;
+}
+.tool-card .tool-target { -fx-text-fill: -c-text; -fx-font-size: 12.5px; }
+.tool-card .tool-detail {
+    -fx-border-color: -c-border transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+    -fx-padding: 8 10 8 10;
+}
+.tool-card.state-running { -fx-border-color: -c-accent-dim; }
+.tool-card.state-failed { -fx-border-color: -c-danger-dim; }
+
+.output-area {
+    -fx-font-family: "D2Coding", "Cascadia Code", Consolas, monospace;
+    -fx-font-size: 12px;
+    -fx-background-color: -c-code-bg;
+    -fx-text-fill: -c-text-dim;
+    -fx-background-radius: 6;
+    -fx-border-color: -c-border;
+    -fx-border-radius: 6;
+}
+.output-area .content { -fx-background-color: -c-code-bg; }
+
+.badge {
+    -fx-background-color: -c-hover;
+    -fx-background-radius: 4;
+    -fx-padding: 1 6 1 6;
+    -fx-font-size: 10.5px;
+    -fx-text-fill: -c-text-muted;
+}
+.diff-add { -fx-text-fill: -c-success; -fx-font-size: 11.5px; }
+.diff-del { -fx-text-fill: -c-danger; -fx-font-size: 11.5px; }
+
+/* ------------------------------------------------------------------ diff ---- */
+
+.diff-view { -fx-background-color: -c-code-bg; -fx-background-radius: 6; -fx-padding: 6 0 6 0; }
+.diff-line {
+    -fx-font-family: "D2Coding", "Cascadia Code", Consolas, monospace;
+    -fx-font-size: 12px;
+    -fx-padding: 0 10 0 10;
+}
+.diff-line.added { -fx-background-color: -c-diff-add-bg; -fx-text-fill: -c-diff-add-text; }
+.diff-line.removed { -fx-background-color: -c-diff-del-bg; -fx-text-fill: -c-diff-del-text; }
+.diff-line.meta { -fx-text-fill: -c-text-muted; }
+.diff-line.hunk { -fx-text-fill: -c-accent; }
+.diff-line.context { -fx-text-fill: -c-text-dim; }
+
+/* -------------------------------------------------------------- approvals ---- */
+
+.approval-card {
+    -fx-background-color: -c-card;
+    -fx-background-radius: 8;
+    -fx-border-color: -c-warn-dim;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+    -fx-padding: 12 14 12 14;
+}
+.approval-card .approval-title { -fx-font-weight: bold; -fx-text-fill: -c-text; }
+.approval-card.resolved { -fx-border-color: -c-border; -fx-opacity: 0.75; }
+
+/* --------------------------------------------------------------- composer ---- */
+
+.composer-region {
+    -fx-background-color: -c-bg;
+    -fx-padding: 10 28 14 28;
+}
+.composer {
+    -fx-background-color: -c-input-bg;
+    -fx-background-radius: 12;
+    -fx-border-color: -c-border;
+    -fx-border-radius: 12;
+    -fx-border-width: 1;
+    -fx-padding: 6 8 6 12;
+}
+.composer.focused { -fx-border-color: -c-border-strong; }
+
+.composer-input {
+    -fx-background-color: transparent;
+    -fx-text-fill: -c-text;
+    -fx-highlight-fill: -c-selection;
+    -fx-highlight-text-fill: -c-text;
+    -fx-padding: 4 0 4 0;
+    -fx-font-size: 13.5px;
+    -fx-prompt-text-fill: -c-text-muted;
+}
+.composer-input .content { -fx-background-color: transparent; }
+.composer-input:focused { -fx-background-color: transparent; }
+
+/* A TextArea always carries a ScrollPane. Even with a transparent track its thumb and corner
+   showed up as small pale dots at the edges of the composer, so they are removed outright -
+   the field grows with its content instead of scrolling. */
+.composer-input > .scroll-pane { -fx-background-color: transparent; }
+.composer-input .scroll-bar:vertical,
+.composer-input .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-pref-width: 0;
+    -fx-pref-height: 0;
+    -fx-max-width: 0;
+    -fx-max-height: 0;
+    -fx-padding: 0;
+}
+.composer-input .scroll-bar:vertical .thumb,
+.composer-input .scroll-bar:horizontal .thumb,
+.composer-input .scroll-bar:vertical .track,
+.composer-input .scroll-bar:horizontal .track { -fx-background-color: transparent; }
+.composer-input .corner { -fx-background-color: transparent; -fx-opacity: 0; }
+
+.send-button {
+    -fx-background-color: -c-accent;
+    -fx-background-radius: 8;
+    -fx-text-fill: -c-accent-text;
+    -fx-min-width: 30;
+    -fx-min-height: 26;
+    -fx-padding: 2 8 2 8;
+    -fx-font-size: 13px;
+    -fx-border-color: transparent;
+}
+.send-button:hover { -fx-background-color: -c-accent-hover; }
+.send-button:disabled { -fx-opacity: 0.4; }
+.send-button.stop { -fx-background-color: -c-danger; }
+.send-button.stop:hover { -fx-background-color: -c-danger; -fx-opacity: 0.9; }
+
+.attachment-chip {
+    -fx-background-color: -c-card;
+    -fx-background-radius: 6;
+    -fx-border-color: -c-border;
+    -fx-border-radius: 6;
+    -fx-border-width: 1;
+    -fx-padding: 3 4 3 8;
+}
+.attachment-chip:hover { -fx-border-color: -c-border-strong; }
+.attachment-chip .label { -fx-text-fill: -c-text-dim; }
+
+/* ------------------------------------------------------------- status bar ---- */
+
+.status-bar {
+    -fx-background-color: -c-surface;
+    -fx-border-color: -c-border transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+    -fx-padding: 4 12 4 12;
+    -fx-min-height: 28;
+}
+.status-bar .label { -fx-text-fill: -c-text-muted; -fx-font-size: 11.5px; }
+.status-dot { -fx-font-size: 11px; }
+.status-dot.ok { -fx-text-fill: -c-success; }
+.status-dot.warn { -fx-text-fill: -c-warn; }
+.status-dot.bad { -fx-text-fill: -c-danger; }
+.status-dot.idle { -fx-text-fill: -c-text-muted; }
+
+.activity-row { -fx-padding: 2 0 6 0; }
+.activity-label { -fx-text-fill: -c-text-dim; -fx-font-size: 12px; }
+
+/* --------------------------------------------------------------- settings ---- */
+
+.settings-page { -fx-padding: 24 32 24 32; }
+.settings-group {
+    -fx-background-color: -c-surface;
+    -fx-background-radius: 10;
+    -fx-border-color: -c-border;
+    -fx-border-radius: 10;
+    -fx-border-width: 1;
+    -fx-padding: 16 18 16 18;
+}
+.settings-group .group-title { -fx-font-weight: bold; -fx-font-size: 13px; -fx-text-fill: -c-text; }
+.settings-row-label { -fx-text-fill: -c-text-dim; -fx-min-width: 150; }
+
+.text-field, .text-area {
+    -fx-background-color: -c-input-bg;
+    -fx-background-radius: 6;
+    -fx-border-color: -c-border;
+    -fx-border-radius: 6;
+    -fx-border-width: 1;
+    -fx-text-fill: -c-text;
+    -fx-prompt-text-fill: -c-text-muted;
+    -fx-padding: 5 8 5 8;
+    -fx-highlight-fill: -c-selection;
+}
+.text-field:focused, .text-area:focused { -fx-border-color: -c-focus; }
+.text-area .content { -fx-background-color: -c-input-bg; }
+
+.choice-box, .combo-box {
+    -fx-background-color: -c-input-bg;
+    -fx-background-radius: 6;
+    -fx-border-color: -c-border;
+    -fx-border-radius: 6;
+    -fx-border-width: 1;
+    -fx-text-fill: -c-text;
+    -fx-mark-color: -c-text-dim;
+}
+.combo-box .list-cell { -fx-text-fill: -c-text; -fx-background-color: transparent; }
+
+/* The dropdown is a popup window, so its cells are not descendants of .combo-box and kept the
+   stock dark-on-dark text. Restate the palette for the popup as well. */
+.combo-box-popup > .list-view {
+    -fx-background-color: -c-elevated;
+    -fx-background-radius: 8;
+    -fx-border-color: -c-border-strong;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+    -fx-padding: 4;
+}
+.combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell {
+    -fx-background-color: transparent;
+    -fx-background-radius: 5;
+    -fx-text-fill: -c-text-dim;
+    -fx-padding: 5 10 5 10;
+}
+.combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:hover,
+.combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected {
+    -fx-background-color: -c-hover;
+    -fx-text-fill: -c-text;
+}
+.combo-box-popup > .list-view > .placeholder > .label { -fx-text-fill: -c-text-muted; }
+
+.check-box { -fx-text-fill: -c-text-dim; }
+.check-box .box {
+    -fx-background-color: -c-input-bg;
+    -fx-border-color: -c-border-strong;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+.check-box:selected .mark { -fx-background-color: -c-accent; }
+
+.diagnostics-row { -fx-padding: 5 0 5 0; }
+.diagnostics-command {
+    -fx-font-family: "D2Coding", "Cascadia Code", Consolas, monospace;
+    -fx-font-size: 11px;
+    -fx-text-fill: -c-text-muted;
+}
+
+/* ------------------------------------------------------------ scroll bars ---- */
+
+.scroll-bar { -fx-background-color: transparent; -fx-padding: 2; }
+.scroll-bar .track { -fx-background-color: transparent; -fx-border-color: transparent; }
+.scroll-bar .thumb {
+    -fx-background-color: -c-scroll-thumb;
+    -fx-background-radius: 6;
+}
+.scroll-bar .thumb:hover { -fx-background-color: -c-scroll-thumb-hover; }
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button,
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+    -fx-background-color: transparent;
+    -fx-shape: null;
+    -fx-padding: 0;
+}
+.scroll-bar:horizontal { -fx-pref-height: 9; }
+.scroll-bar:vertical { -fx-pref-width: 9; }
+
+/* The ScrollPane itself AND its viewport must both be cleared: the stock theme paints the viewport
+   with its light -fx-background, which showed up as a white page behind the settings form. */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+.scroll-pane > .viewport { -fx-background-color: transparent; }
+.scroll-pane > .corner { -fx-background-color: transparent; }
+.list-view, .list-view > .virtual-flow { -fx-background-color: transparent; }
+
+/* ------------------------------------------------------------- separators ---- */
+
+.separator .line {
+    -fx-border-color: -c-border transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+}
+
+.empty-state { -fx-padding: 40; -fx-spacing: 8; }
+.empty-state .headline { -fx-font-size: 15px; -fx-text-fill: -c-text; }
+.empty-state .sub { -fx-font-size: 12.5px; -fx-text-fill: -c-text-muted; }
+
+.tooltip {
+    -fx-background-color: -c-elevated;
+    -fx-text-fill: -c-text;
+    -fx-background-radius: 6;
+    -fx-border-color: -c-border;
+    -fx-border-radius: 6;
+    -fx-font-size: 11.5px;
+}
+
+.progress-indicator { -fx-progress-color: -c-accent; }
+
+/* ------------------------------------------------------------------ usage ---- */
+
+.status-clickable { -fx-cursor: hand; -fx-padding: 2 6 2 6; -fx-background-radius: 5; }
+.status-clickable:hover { -fx-background-color: -c-hover; }
+
+.usage-popup {
+    -fx-background-color: -c-elevated;
+    -fx-background-radius: 10;
+    -fx-border-color: -c-border-strong;
+    -fx-border-radius: 10;
+    -fx-border-width: 1;
+}
+.usage-popup .section-label { -fx-padding: 4 0 2 0; }
+
+.usage-meter { -fx-accent: -c-accent; }
+.usage-meter > .track {
+    -fx-background-color: -c-hover;
+    -fx-background-radius: 3;
+    -fx-background-insets: 0;
+}
+.usage-meter > .bar {
+    -fx-background-color: -c-accent;
+    -fx-background-radius: 3;
+    -fx-background-insets: 0;
+    -fx-padding: 3;
+}
+.usage-meter.warn > .bar { -fx-background-color: -c-warn; }
+.usage-meter.critical > .bar { -fx-background-color: -c-danger; }
+
+/* ----------------------------------------------------------------- office ---- */
+
+.office-view { -fx-background-color: -c-bg; }
+.button.selected-toggle {
+    -fx-background-color: -c-selected;
+    -fx-text-fill: -c-text;
+    -fx-border-color: -c-border-strong;
+}
+.office-canvas { -fx-background-color: -c-code-bg; }
+
+/* ------------------------------------------------- composer final overrides ---- */
+/* These must come last. The generic .text-area rules further up the file share the
+   same specificity, and Modena's own layered background (-fx-box-border under the
+   inner fill) was leaving one bright pixel at each corner of the text viewport -
+   the "white dots" at both ends of the input. Zeroing every layer here removes them. */
+
+.composer-input,
+.composer-input > .scroll-pane,
+.composer-input > .scroll-pane > .viewport,
+.composer-input .content,
+.composer-input .corner {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-effect: null;
+}
+.composer-input {
+    -fx-text-fill: -c-text;
+    -fx-prompt-text-fill: -c-text-muted;
+    -fx-highlight-fill: -c-selection;
+    -fx-highlight-text-fill: -c-text;
+    -fx-padding: 4 0 4 0;
+    -fx-font-size: 13.5px;
+}
+.composer-input:focused { -fx-background-color: transparent; -fx-border-color: transparent; }
+
+/* ------------------------------------------------------------------- menus ---- */
+/* Menus live in their own popup windows and were still wearing the stock theme:
+   a light panel, while the global .label rule painted the item text near-white.
+   Everything a ContextMenu draws is restated here against the app palette. */
+
+.context-menu {
+    -fx-background-color: -c-elevated;
+    -fx-background-radius: 8;
+    -fx-background-insets: 0;
+    -fx-border-color: -c-border-strong;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+    -fx-padding: 5;
+}
+.context-menu > .scroll-arrow {
+    -fx-background-color: transparent;
+    -fx-padding: 4;
+}
+.context-menu > .scroll-arrow > .menu-up-arrow,
+.context-menu > .scroll-arrow > .menu-down-arrow { -fx-background-color: -c-text-muted; }
+
+.menu-item {
+    -fx-background-color: transparent;
+    -fx-background-radius: 5;
+    -fx-padding: 5 12 5 10;
+}
+.menu-item > .label {
+    -fx-text-fill: -c-text-dim;
+    -fx-font-size: 12.5px;
+    -fx-padding: 0 8 0 0;
+}
+.menu-item:focused,
+.menu-item:hover,
+.menu-item:showing { -fx-background-color: -c-hover; }
+.menu-item:focused > .label,
+.menu-item:hover > .label,
+.menu-item:showing > .label { -fx-text-fill: -c-text; }
+.menu-item:disabled > .label { -fx-text-fill: -c-text-muted; }
+
+/* Submenu indicator and the tick on a selected radio/check item. */
+.menu > .right-container > .arrow { -fx-background-color: -c-text-muted; }
+.menu:focused > .right-container > .arrow,
+.menu:showing > .right-container > .arrow { -fx-background-color: -c-text; }
+.radio-menu-item:selected > .left-container > .radio,
+.check-menu-item:selected > .left-container > .check { -fx-background-color: -c-accent; }
+
+.context-menu .separator > .line {
+    -fx-border-color: -c-border transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+}
+
+/* ------------------------------------------------------- command / file picker ---- */
+/* Laid out like the CLI picker: marker, name, path, kind, then a hint strip. Rows are compact
+   (22 px) so a dozen results fit without the popup covering the conversation. */
+
+.picker-popup {
+    -fx-background-color: -c-elevated;
+    -fx-background-radius: 8;
+    -fx-border-color: -c-border-strong;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+    -fx-padding: 4 0 0 0;
+}
+.picker-list, .picker-list > .virtual-flow { -fx-background-color: transparent; }
+.picker-list > .virtual-flow > .clipped-container > .sheet > .list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 0 10 0 6;
+}
+.picker-list > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected,
+.picker-list > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:hover {
+    -fx-background-color: -c-hover;
+}
+
+.picker-marker { -fx-text-fill: -c-accent; }
+.picker-name {
+    -fx-text-fill: -c-accent;
+    -fx-font-family: "D2Coding", "Cascadia Code", Consolas, monospace;
+    -fx-font-size: 12.5px;
+}
+.picker-name.directory { -fx-text-fill: -c-warn; }
+.picker-path {
+    -fx-text-fill: -c-text-muted;
+    -fx-font-family: "D2Coding", "Cascadia Code", Consolas, monospace;
+    -fx-font-size: 12px;
+}
+.picker-kind {
+    -fx-text-fill: -c-text-muted;
+    -fx-font-size: 11px;
+}
+.picker-mode { -fx-text-fill: -c-text-muted; -fx-font-size: 11px; }
+.picker-mode-active { -fx-text-fill: -c-accent; -fx-font-size: 11px; -fx-font-weight: bold; }
+.picker-footer {
+    -fx-padding: 5 10 5 10;
+    -fx-border-color: -c-border transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+}
+
+/* ------------------------------------------------------------- split panes ---- */
+/* Every panel boundary is draggable. The divider is a hairline that thickens on hover so it is
+   discoverable without drawing a heavy line down the middle of the window. */
+
+.content-split {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+.content-split > .split-pane-divider {
+    -fx-background-color: -c-border;
+    -fx-padding: 0 0 0 0;
+    -fx-pref-width: 1;
+    -fx-cursor: h-resize;
+}
+.content-split > .split-pane-divider:hover,
+.content-split > .split-pane-divider:pressed {
+    -fx-background-color: -c-accent;
+    -fx-pref-width: 2;
+}

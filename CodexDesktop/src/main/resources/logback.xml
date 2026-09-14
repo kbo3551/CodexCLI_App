@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Logs go next to the app's settings (%LOCALAPPDATA%\CodexDesktop\logs) because a packaged
+  install directory is typically read-only.
+
+  Deliberately NOT logged: prompts, model responses, source code, auth tokens.
+  The "codex.wire" logger carries raw protocol JSON and stays OFF unless the user enables
+  Debug Logging in Settings, which raises it at runtime.
+-->
+<configuration>
+  <property name="LOG_DIR" value="${LOCALAPPDATA:-${user.home}}/CodexDesktop/logs"/>
+
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${LOG_DIR}/codex-desktop.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${LOG_DIR}/codex-desktop-%d{yyyy-MM-dd}.log</fileNamePattern>
+      <maxHistory>10</maxHistory>
+      <totalSizeCap>100MB</totalSizeCap>
+    </rollingPolicy>
+    <encoder>
+      <charset>UTF-8</charset>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <charset>UTF-8</charset>
+      <pattern>%d{HH:mm:ss.SSS} %-5level %logger{24} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <logger name="codex.wire" level="OFF"/>
+
+  <root level="INFO">
+    <appender-ref ref="FILE"/>
+    <appender-ref ref="CONSOLE"/>
+  </root>
+</configuration>

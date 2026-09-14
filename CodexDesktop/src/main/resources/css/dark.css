@@ -1,0 +1,45 @@
+/* Dark theme colour tokens. Muted neutrals, one accent, no gradients. */
+.root {
+    -c-bg:            #131316;
+    -c-surface:       #17171b;
+    -c-elevated:      #1e1e23;
+    -c-card:          #1a1a1f;
+    -c-input-bg:      #1c1c21;
+    -c-code-bg:       #101013;
+
+    -c-border:        #26262c;
+    -c-border-strong: #33333b;
+
+    -c-text:          #ececed;
+    -c-text-dim:      #a9a9b2;
+    -c-text-muted:    #74747f;
+
+    -c-hover:         #22222a;
+    -c-pressed:       #2a2a33;
+    -c-selected:      #2b2b35;
+    -c-selection:     #2f4f7f;
+    -c-focus:         #4b6bab;
+
+    -c-accent:        #4f7dfb;
+    -c-accent-hover:  #6089fc;
+    -c-accent-pressed:#3f6ce0;
+    -c-accent-text:   #ffffff;
+    -c-accent-dim:    #2f4585;
+
+    -c-success:       #4bb85f;
+    -c-danger:        #ef5f56;
+    -c-danger-dim:    #6d322e;
+    -c-warn:          #d5a03a;
+    -c-warn-dim:      #6a5322;
+
+    -c-user-bubble:   #202028;
+    -c-code-inline:   #d8b98a;
+
+    -c-diff-add-bg:   #14301c;
+    -c-diff-add-text: #86d99a;
+    -c-diff-del-bg:   #35171a;
+    -c-diff-del-text: #f0908c;
+
+    -c-scroll-thumb:       #303039;
+    -c-scroll-thumb-hover: #3d3d48;
+}

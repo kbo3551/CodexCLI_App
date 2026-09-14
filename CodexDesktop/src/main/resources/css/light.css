@@ -1,0 +1,45 @@
+/* Light theme colour tokens. Same names as dark.css so base.css is theme-agnostic. */
+.root {
+    -c-bg:            #fbfbfc;
+    -c-surface:       #f4f4f6;
+    -c-elevated:      #ffffff;
+    -c-card:          #ffffff;
+    -c-input-bg:      #ffffff;
+    -c-code-bg:       #f4f4f7;
+
+    -c-border:        #e2e2e7;
+    -c-border-strong: #cdcdd5;
+
+    -c-text:          #1c1c20;
+    -c-text-dim:      #52525c;
+    -c-text-muted:    #86868f;
+
+    -c-hover:         #ececf0;
+    -c-pressed:       #e0e0e6;
+    -c-selected:      #e4e6ef;
+    -c-selection:     #bcd3fb;
+    -c-focus:         #7aa0ef;
+
+    -c-accent:        #3560e0;
+    -c-accent-hover:  #2f57cf;
+    -c-accent-pressed:#2a4dba;
+    -c-accent-text:   #ffffff;
+    -c-accent-dim:    #adc2f5;
+
+    -c-success:       #1f8a3b;
+    -c-danger:        #c8362c;
+    -c-danger-dim:    #eab5b0;
+    -c-warn:          #9a6c11;
+    -c-warn-dim:      #e8d4a4;
+
+    -c-user-bubble:   #eceef3;
+    -c-code-inline:   #9a5717;
+
+    -c-diff-add-bg:   #e3f6e7;
+    -c-diff-add-text: #1a6e30;
+    -c-diff-del-bg:   #fbe6e4;
+    -c-diff-del-text: #a52a21;
+
+    -c-scroll-thumb:       #cdcdd5;
+    -c-scroll-thumb-hover: #b6b6c0;
+}

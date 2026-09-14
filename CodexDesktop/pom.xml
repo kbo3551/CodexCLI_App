@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.codexdesktop</groupId>
+  <artifactId>codex-desktop</artifactId>
+  <version>0.1.0</version>
+  <packaging>jar</packaging>
+  <name>CodexDesktop</name>
+  <description>JavaFX desktop front-end for the Codex CLI running inside WSL</description>
+
+  <properties>
+    <maven.compiler.release>21</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <javafx.version>21.0.12</javafx.version>
+    <jackson.version>2.22.2</jackson.version>
+    <slf4j.version>2.0.19</slf4j.version>
+    <logback.version>1.5.38</logback.version>
+    <commonmark.version>0.30.0</commonmark.version>
+    <junit.version>5.14.4</junit.version>
+
+    <!-- Cleared on the command line to run the opt-in integration tests. -->
+    <surefire.excludedGroups>integration,preview</surefire.excludedGroups>
+
+    <app.mainClass>com.codexdesktop.CodexDesktopApplication</app.mainClass>
+    <!-- jpackage / classpath launch entry point: must NOT extend Application. -->
+    <app.launcherClass>com.codexdesktop.Launcher</app.launcherClass>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-controls</artifactId>
+      <version>${javafx.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-graphics</artifactId>
+      <version>${javafx.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-base</artifactId>
+      <version>${javafx.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.commonmark</groupId>
+      <artifactId>commonmark</artifactId>
+      <version>${commonmark.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>${logback.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>codex-desktop</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.14.0</version>
+        <configuration>
+          <compilerArgs>
+            <arg>-Xlint:all,-serial,-processing</arg>
+          </compilerArgs>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.5.5</version>
+        <configuration>
+          <!--
+            Integration tests start a real Codex process and call the model, so they are opt-in:
+              mvn test -Dgroups=integration -DexcludedGroups=
+          -->
+          <excludedGroups>${surefire.excludedGroups}</excludedGroups>
+          <argLine>-Dfile.encoding=UTF-8</argLine>
+        </configuration>
+      </plugin>
+
+      <!-- Manifest Class-Path lets jpackage launch with a flat lib directory. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.4.2</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <classpathPrefix></classpathPrefix>
+              <mainClass>${app.launcherClass}</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+
+      <!-- target/app holds the runnable jar set consumed by jpackage. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.9.0</version>
+        <executions>
+          <execution>
+            <id>copy-runtime-dependencies</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/app</outputDirectory>
+              <includeScope>runtime</includeScope>
+              <stripVersion>false</stripVersion>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <id>stage-app-jar</id>
+            <phase>package</phase>
+            <goals><goal>run</goal></goals>
+            <configuration>
+              <target>
+                <copy file="${project.build.directory}/${project.build.finalName}.jar"
+                      todir="${project.build.directory}/app"/>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-maven-plugin</artifactId>
+        <version>0.0.8</version>
+        <configuration>
+          <mainClass>${app.mainClass}</mainClass>
+          <options>
+            <option>-Dfile.encoding=UTF-8</option>
+            <option>-Dprism.lcdtext=false</option>
+          </options>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
