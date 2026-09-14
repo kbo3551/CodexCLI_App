@@ -1,5 +1,21 @@
 # HISTORY
 
+### [14] 2026-09-14 11:00 (KST) | 작업자: Agent
+- 요청/목적: GitHub 첫 화면에서 README가 표시되도록 루트 README를 만들고 기존 작업 및 Codex 푸시 내역을 문서화
+- 수행 내용:
+  1) 하위 `CodexDesktop/README.md`만 있어 GitHub가 자동 표시하지 못하는 구조 확인
+  2) 루트 `README.md`에 개요, 아키텍처, 기능, 작업 이력, 실행/빌드/테스트, 구조 및 GitHub 게시 기록 작성
+  3) 초기 게시를 수행한 Codex 에이전트, 커밋(`c82a264`, `5eeef3e`) 및 56개 테스트 결과 명시
+- 변경 파일: `README.md`, `docs/history/HISTORY.md`, `docs/memory/MEMORY_07.md`
+- 검증:
+  - `git diff --check` 통과, README 로컬 링크 3개 대상 존재 확인
+  - `MEMORY_07.md` 353자(3,000자 미만)
+  - Maven을 저장소 루트에서 처음 실행해 POM 부재로 실패; `-f CodexDesktop/pom.xml`로 재실행
+  - Tests run: 56, Failures: 0, Errors: 0, Skipped: 0 / BUILD SUCCESS
+- 결과: 루트 README 작성 및 로컬 검증 완료, 푸시 준비
+- 다음 액션: 테스트 후 `origin/main` 푸시
+---
+
 ### [13] 2026-09-14 10:49 (KST) | 작업자: Agent
 - 요청/목적: 현재 `devtest` 프로젝트를 GitHub `kbo3551/CodexCLI_App` 저장소의 `main` 브랜치에 게시
 - 수행 내용:
